@@ -5,7 +5,12 @@ import java.util.LinkedList;
 import java.util.List; 
 import java.util.Iterator; 
 
-public abstract  class  ModelObservable {
+
+import generator.GeneratorStrategy; 
+
+public abstract 
+
+class  ModelObservable {
 	
 	private List observers=new LinkedList();
 
@@ -52,6 +57,15 @@ public abstract  class  ModelObservable {
 	
   	
   	public abstract void setPlayground(  int[][] pg);
+
+	
+	public abstract void generate();
+
+	
+	public abstract void setGenerator(GeneratorStrategy generator);
+
+	
+	public abstract List getGeneratorStrategies();
 
 
 }
