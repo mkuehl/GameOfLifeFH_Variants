@@ -21,9 +21,7 @@ import generator.RandomGeneratorStrategy;
 
 
 
-
 public 
-
 
 
 
@@ -39,7 +37,6 @@ class  GODLModel  extends ModelObservable {
 	private List generators;
 
 	
-	
 	public GODLModel  (int xSize, int ySize, RuleSet rules) {
 		this.rules = rules;
 		this.playground = new Playground(xSize, ySize, 0);
@@ -54,7 +51,7 @@ class  GODLModel  extends ModelObservable {
 		generators.add(rgs);
 	
 		for (int i = 0;  i < generators.size(); i++) {
-			if (generators.get(i) instanceof FormGeneratorStrategy) {
+			if (generators.get(i) instanceof RandomGeneratorStrategy) {
 				generator = (GeneratorStrategy) generators.get(i);
 				break;
 			}
@@ -129,6 +126,27 @@ class  GODLModel  extends ModelObservable {
 		}
 		this.playground = newGround;
 		notifyObservers();
+	}
+
+		
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(playground);
+		return sb.toString();
+	}
+
+	
+	
+	public boolean equals(Object o) {
+		if(o == null) {
+			return false;
+		} else if(o instanceof GODLModel) {
+			GODLModel ogm = (GODLModel) o;
+			return playground.equals(ogm.playground) && rules.equals(ogm.rules);
+		} else {
+			return false;
+		}
 	}
 
 
