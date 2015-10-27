@@ -8,7 +8,11 @@ import java.util.Iterator;
 
 import generator.GeneratorStrategy; 
 
+
+
 public abstract 
+
+
 
 class  ModelObservable {
 	
@@ -66,6 +70,18 @@ class  ModelObservable {
 
 	
 	public abstract List getGeneratorStrategies();
+
+	
+	 public abstract void undo();
+
+	
+ 	 public abstract boolean undoAvailable();
+
+	
+  	 public abstract void redo();
+
+	
+  	 public abstract boolean redoAvailable();
 
 
 }
