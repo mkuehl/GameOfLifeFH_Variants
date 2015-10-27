@@ -38,7 +38,7 @@ class  ButtonsToolBar  extends JToolBar {
   private JButton pause;
 
 	
-  public ButtonsToolBar(  ModelObservable mod,  final GenerationScheduler sched){
+  public ButtonsToolBar  (  ModelObservable mod,  final GenerationScheduler sched){
     this.model=mod;
     this.sched=sched;
     this.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -76,6 +76,41 @@ class  ButtonsToolBar  extends JToolBar {
       }
     }
 ));
+  
+    add(makeNavigationButton("open24","Load","Laden","Laden",new ActionListener(){
+      public void actionPerformed(ActionEvent e){
+        JFileChooser fc=new JFileChooser();
+        int resp=fc.showOpenDialog(ButtonsToolBar.this);
+        if (resp == JFileChooser.APPROVE_OPTION) {
+          	File selected=fc.getSelectedFile();
+          	if (selected == null || !selected.exists())           
+          		return;
+          	try {
+            	model.setPlayground(PlaygroundIO.loadFromFile(selected));
+          	} catch (          IOException e1) {
+            	e1.printStackTrace();
+          	}
+        }
+      }
+    }
+	));
+    add(makeNavigationButton("Save24","Save","Speichern","Speichern",new ActionListener(){
+      public void actionPerformed(ActionEvent e){
+        JFileChooser fc=new JFileChooser();
+        int resp=fc.showSaveDialog(ButtonsToolBar.this);
+        if (resp == JFileChooser.APPROVE_OPTION) {
+          	File selected=fc.getSelectedFile();
+          	if (selected == null)
+          		return;
+          	try {
+            	PlaygroundIO.saveToFile(model.getPlayground(),selected);
+          	} catch (IOException e1) {
+            	e1.printStackTrace();
+          	}
+        }
+      }
+    }
+	));
   }
 
 	
