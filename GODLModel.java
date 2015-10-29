@@ -13,10 +13,6 @@ import generator.ClearGeneratorStrategy;
 
 
 
-import generator.FormGeneratorStrategy; 
-
-
-
 import generator.RandomGeneratorStrategy; 
 
 
@@ -24,7 +20,11 @@ import java.util.LinkedList;
 
 
 
-public   class  GODLModel  extends ModelObservable {
+public  
+
+
+
+class  GODLModel  extends ModelObservable {
 	
 
 	private RuleSet rules;
@@ -36,30 +36,26 @@ public   class  GODLModel  extends ModelObservable {
 	private List generators;
 
 	
-
-    public GODLModel  (int xSize, int ySize, RuleSet rules) {
+	public GODLModel  (int xSize, int ySize, RuleSet rules) {
 		this.rules = rules;
 		this.playground = new Playground(xSize, ySize, 0);
 		this.generators = new java.util.ArrayList();
 	
 		generators.add(new ClearGeneratorStrategy());
 	
-		FormGeneratorStrategy fgs = new FormGeneratorStrategy(playground.getXSize(), playground.getYSize());
-		generators.add(fgs);
-	
 		RandomGeneratorStrategy rgs = new RandomGeneratorStrategy();
 		generators.add(rgs);
 	
+    	this.undoList = new LinkedList();
+        this.redoList = new LinkedList();
+    
 		for (int i = 0;  i < generators.size(); i++) {
-			if (generators.get(i) instanceof FormGeneratorStrategy) {
+			if (generators.get(i) instanceof RandomGeneratorStrategy) {
 				generator = (GeneratorStrategy) generators.get(i);
 				break;
 			}
 		}  
-	
-    	this.undoList = new LinkedList();
-        this.redoList = new LinkedList();
-    }
+	}
 
 	
 	
