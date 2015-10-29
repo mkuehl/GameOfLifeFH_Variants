@@ -17,11 +17,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel; 
 import javax.swing.JToolBar; 
 
-
-import java.util.List; 
-import generator.GeneratorStrategy; 
-import java.awt.Point; 
-
 public 
 
 class  ButtonsToolBar  extends JToolBar {
@@ -77,41 +72,6 @@ class  ButtonsToolBar  extends JToolBar {
     }
 ));
   
-    add(makeNavigationButton("open24","Load","Laden","Laden",new ActionListener(){
-      public void actionPerformed(ActionEvent e){
-        JFileChooser fc=new JFileChooser();
-        int resp=fc.showOpenDialog(ButtonsToolBar.this);
-        if (resp == JFileChooser.APPROVE_OPTION) {
-          	File selected=fc.getSelectedFile();
-          	if (selected == null || !selected.exists())           
-          		return;
-          	try {
-            	model.setPlayground(PlaygroundIO.loadFromFile(selected));
-          	} catch (          IOException e1) {
-            	e1.printStackTrace();
-          	}
-        }
-      }
-    }
-	));
-    add(makeNavigationButton("Save24","Save","Speichern","Speichern",new ActionListener(){
-      public void actionPerformed(ActionEvent e){
-        JFileChooser fc=new JFileChooser();
-        int resp=fc.showSaveDialog(ButtonsToolBar.this);
-        if (resp == JFileChooser.APPROVE_OPTION) {
-          	File selected=fc.getSelectedFile();
-          	if (selected == null)
-          		return;
-          	try {
-            	PlaygroundIO.saveToFile(model.getPlayground(),selected);
-          	} catch (IOException e1) {
-            	e1.printStackTrace();
-          	}
-        }
-      }
-    }
-	));
-  
     undo=makeNavigationButton("Undo24","Rückgängig","Rückgängig","Undo",new ActionListener(){
       public void actionPerformed(ActionEvent e){
         if (model.undoAvailable()) {
@@ -135,47 +95,24 @@ class  ButtonsToolBar  extends JToolBar {
   }
 
 	
-  
-    private void addGenerationButton  () {
-/*		JMenu btn = new GenerationSelector(model);
-		String imgLocation = "/ressources/images/" + "Stop24" + ".gif";
-		URL imageURL = Main.class.getResource(imgLocation);
-		btn.setActionCommand("Generate");
-		btn.setToolTipText("neues Feld generieren");
-		if (imageURL != null) {
-			btn.setIcon(new ImageIcon(imageURL, "Generieren"));
-		} else {
-			btn.setText("Generieren");
-			System.err.println("Resource not found: " + imgLocation);
-		}
-		
-		add(btn);*/
-    	
-  	  final JButton btn = makeNavigationButton("Stop24","ClearField","Feld generieren","generieren",new ActionListener(){
-	      public void actionPerformed(ActionEvent e){
-	    	  List gens = model.getGeneratorStrategies();
-	    	  if (gens.size() == 1) {
-	    		  model.setGenerator((GeneratorStrategy) gens.get(0));
-	    		  model.generate();
-	    		  return;
-	    	  } else if (gens.size() == 0) {
-	    		  model.generate();
-	    		  return;
-	    	  }
-	    	  sched.stop();
-        	  pause.setEnabled(false);
-        	  play.setEnabled(true);
-	    	  GenerationSelector s = new GenerationSelector(model);
-	    	  Point p = ((JButton)e.getSource()).getLocationOnScreen();
-	    	  p.y = p.y + ((JButton)e.getSource()).getHeight();
-	    	  s.setLocation(p);
-	    	  //s.setLocation(((JButton)e.getSource()).getX(), ((JButton)e.getSource()).getY() + ((JButton)e.getSource()).getHeight());
-	    	  s.setVisible(true);
-	      }
-	  }
-	  );
-	  add(btn);
-	}
+  private void addGenerationButton() {
+  	add(makeNavigationButton("Stop24","ClearField","Feld löschen","löschen",new ActionListener(){
+      public void actionPerformed(      ActionEvent e){
+        int x=model.getPlayground().length;
+        int y=model.getPlayground()[0].length;
+        for (int ix=0; ix < x; ix++) {
+          for (int iy=0; iy < y; iy++) {
+            model.setLifeform(ix,iy,0);
+          }
+        }
+        sched.stop();
+        pause.setEnabled(false);
+        play.setEnabled(true);
+        model.notifyObservers();
+      }
+    }
+	));
+  }
 
 	
    private void  update__wrappee__GuiBase  (){

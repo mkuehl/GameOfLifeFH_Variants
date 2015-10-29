@@ -13,10 +13,6 @@ import generator.ClearGeneratorStrategy;
 
 
 
-import generator.FormGeneratorStrategy; 
-
-
-
 import generator.RandomGeneratorStrategy; 
 
 
@@ -46,9 +42,6 @@ class  GODLModel  extends ModelObservable {
 		this.generators = new java.util.ArrayList();
 	
 		generators.add(new ClearGeneratorStrategy());
-	
-		FormGeneratorStrategy fgs = new FormGeneratorStrategy(playground.getXSize(), playground.getYSize());
-		generators.add(fgs);
 	
 		RandomGeneratorStrategy rgs = new RandomGeneratorStrategy();
 		generators.add(rgs);
