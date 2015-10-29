@@ -1,17 +1,10 @@
 package standard; 
+
+
 import java.awt.event.MouseAdapter; 
 import java.awt.event.MouseEvent; 
 
-
-import java.awt.Color; 
-import java.awt.Dimension; 
-import java.awt.Graphics; 
-import javax.swing.JPanel; 
-import javax.swing.JPopupMenu; 
-
-public 
-
-class  PlaygroundMouseAdapter  extends MouseAdapter {
+public  class  PlaygroundMouseAdapter  extends MouseAdapter {
 	
 
 		private final PlaygroundPanel playgroundPanel;
@@ -46,15 +39,8 @@ class  PlaygroundMouseAdapter  extends MouseAdapter {
 
 	
 		
-		public boolean hook  (MouseEvent e, int x, int y) {
-			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3) {
-	            JPopupMenu popup = new PopUpMenu(playgroundPanel.getModel(), x, y);
-	            popup.show(playgroundPanel,
-	                       e.getX(), e.getY());
-	            return true;
-	        } else {
-	        	return false;
-	        }
+		public boolean hook(MouseEvent e, int x, int y) {
+			return false;
 		}
 
 
